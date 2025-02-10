@@ -1,11 +1,14 @@
 package Event_Calendar;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Meeting extends Event implements Completable {
     private LocalDateTime endDateTime;
     private String location;
     private boolean complete;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+
 
     public Meeting(String name, LocalDateTime start, LocalDateTime end, String location) {
         super(name, start);
@@ -46,6 +49,7 @@ public class Meeting extends Event implements Completable {
 
     @Override
     public String getDetails() {
-        return "Meeting: " + getName() + " from " + getDateTime() + " to " + endDateTime + " at " + location + " (Complete: " + complete + ")";
+        return String.format("Meeting: %s from %s to %s at %s (Complete: %b)",
+                getName(), getDateTime().format(FORMATTER), getEndDateTime().format(FORMATTER), location, complete);
     }
 }
